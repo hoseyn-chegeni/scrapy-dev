@@ -1,6 +1,7 @@
 import scrapy
 from divar_scraper.items import BookItem
 
+
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
     allowed_domains = ["books.toscrape.com"]
@@ -35,5 +36,5 @@ class BookspiderSpider(scrapy.Spider):
         book_item['tax'] = table_rows[4].css('td::text').get()
         book_item['availability'] = table_rows[5].css('td::text').get()
         book_item['num_reviews'] = table_rows[6].css('td::text').get()
-        book_item['stars'] = response.css('p.star-rating').attrib['class']
-        yield BookItem
+        book_item['stars'] = response.css('p.star-rating').attrib['class'].split()[-1]
+        yield book_item

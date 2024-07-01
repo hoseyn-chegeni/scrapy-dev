@@ -11,7 +11,7 @@ class DivarScraperItem(scrapy.Item):
     # name = scrapy.Field()
     pass
 
-def serilize_price(value):
+def serialize_price(value):
     return f'$ {str(value)}'
 
 class BookItem(scrapy.Item):
@@ -19,7 +19,7 @@ class BookItem(scrapy.Item):
     title = scrapy.Field()
     upc = scrapy.Field()
     product_type = scrapy.Field()
-    price_excel_tax = scrapy.Field(serializer = serilize_price)
+    price_excl_tax = scrapy.Field(serializer=serialize_price)
     price_incl_tax = scrapy.Field()
     tax = scrapy.Field()
     availability = scrapy.Field()
@@ -27,4 +27,4 @@ class BookItem(scrapy.Item):
     stars = scrapy.Field()
     category = scrapy.Field()
     description = scrapy.Field()
-    price = scrapy.Field()
+    # Removed the redundant 'price' field

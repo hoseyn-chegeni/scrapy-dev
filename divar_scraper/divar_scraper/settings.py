@@ -50,9 +50,11 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    "divar_scraper.middlewares.DivarScraperDownloaderMiddleware": 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   "divar_scraper.middlewares.DivarScraperDownloaderMiddleware": 543,
+    'rotating_proxies.middlewares.RotatingProxyMiddleware': 610,
+    'rotating_proxies.middlewares.BanDetectionMiddleware': 620,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
@@ -91,3 +93,16 @@ ITEM_PIPELINES = {
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
+
+ROTATING_PROXY_LIST = [
+   '61.7.138.170:5678',
+   '93.87.73.58:1080',
+   '103.214.54.90:8080',
+   '104.255.170.67:59874',
+   '41.242.66.74:5678',
+   '84.38.189.241:30073',
+   '202.40.188.201:4145',
+   '49.48.43.1:8080',
+   '47.242.34.83:443',
+   '188.94.227.161:8080',
+]

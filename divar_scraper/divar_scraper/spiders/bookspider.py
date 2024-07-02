@@ -1,6 +1,6 @@
 import scrapy
 from divar_scraper.items import BookItem
-
+from random import randint
 
 class BookspiderSpider(scrapy.Spider):
     name = "bookspider"
@@ -15,6 +15,12 @@ class BookspiderSpider(scrapy.Spider):
             }
         }
     }
+    user_agent_list = [
+        'Mozilla/5.0 (Windows NT 5.2) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.794.0 Safari/535.1',
+        'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.6 (KHTML, like Gecko) Chrome/16.0.897.0 Safari/535.6',  
+        'Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2',
+    ]
+
 
     def parse(self, response):
         books = response.css('article.product_pod')
@@ -24,7 +30,7 @@ class BookspiderSpider(scrapy.Spider):
                 relative_url = 'https://books.toscrape.com/' + relative
             else:
                 relative_url = 'https://books.toscrape.com/catalogue/' + relative
-            yield response.follow(relative_url, callback=self.parse_book_page)
+            yield response.follow(relative_url, callback=self.parse_book_page, headers = {"User-Agent": self.user_agent_list[randint(0, len(self.user_agent_list)-1)]})
 
         next_page = response.css('li.next a::attr(href)').get()
         if next_page is not None:
@@ -32,7 +38,7 @@ class BookspiderSpider(scrapy.Spider):
                 next_page_url = 'https://books.toscrape.com/' + next_page
             else:
                 next_page_url = 'https://books.toscrape.com/catalogue/' + next_page
-            yield response.follow(next_page_url, callback=self.parse)
+            yield response.follow(next_page_url, callback=self.parse, headers = {"User-Agent": self.user_agent_list[randint(0, len(self.user_agent_list)-1)]})
 
     def parse_book_page(self, response):
         table_rows = response.css('table tr')
